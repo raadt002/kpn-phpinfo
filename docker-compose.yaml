@@ -1,6 +1,13 @@
 services:
   kpn-phpinfo:
+    entrypoint:
+      - /usr/bin/php
+      - -f
+      - index.php
+      - -S
+      - 0.0.0.0:8080
     image: 19660507/kpn-phpinfo:latest
     ports:
       - 80:8080
+    working_dir: /src
 version: '3.8'
