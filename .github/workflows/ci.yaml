@@ -1,0 +1,20 @@
+name: ci
+on: 
+  push:
+    branches:
+      - docker
+jobs:
+  docker:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: build
+        run: docker build --tag kpn-phpinfo:test .
+      - name: run
+        run: docker run --detach --entrypoint /usr/bin/php --name kpn-phpinfo-container --workdir /src kpn-phpinfo:test -f index.php -S 0.0.0.0:8080
+      - name: logs
+        run: while true ; do sleep 10 && docker logs kpn-phpinfo-container 2>& 1 | grep started && break ; done
+        
+
+        
